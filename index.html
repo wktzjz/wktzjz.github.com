@@ -54,6 +54,7 @@
                 var value = getCookie("test");
                 var string = "get value" + value;
                 alert(string);
+                delCookie("test");
             }else{
             	writeCookie("test","value_token",10);
             }
