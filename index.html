@@ -1,64 +1,32 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <!--<script language="javascript"> location.replace("tztHTMobile://test") </script> -->
-    </head>
-    <body>
-    <B1>请在safari中打开，右上角打开safari</B1>
-        <a href="wkAppTest://tokenAndKey">跳转</a>
-    </body>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>GetUserMedia实例</title>
+</head>
+<body>
+    <video id="video" autoplay></video>
+</body>
 
-     <script>
- // window.location = "weixin:";
- // setTimeout( function(){ window.location="http://itunes.apple.com/us/app/wechat!/id414478124?mt=8";   } , 1500);
 
-        function writeCookie(name, value, hours){  
-        var expire = "";  
-        if(hours != null){  
-          expire = new Date((new Date()).getTime() + hours * 3600000);  
-          expire = "; expires=" + expire.toGMTString();  
-        }  
-        document.cookie = name + "=" + escape(value) + expire;  
-        }  
-         
-        //获得cookie 
-        function getCookie(Name)  
-        {  
-            var search = Name + "=" ; 
-             
-            if(document.cookie.length > 0)  
-            {  
-               
-                offset = document.cookie.indexOf(search)  
-                if(offset != -1)  
-                {  
-                    offset += search.length  
-                    end = document.cookie.indexOf(";", offset)  
-                    if(end == -1) end = document.cookie.length  
-                    return unescape(document.cookie.substring(offset, end))  
-                }  
-                else return ""; 
-            }  
-        }  
+<script type="text/javascript">
+    var getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
-        function delCookie(name)
-		{
-			var exp = new Date();
-			exp.setTime(exp.getTime() - 1);
-			var cval=getCookie(name);
-			if(cval!=null) document.cookie= name + "="+cval+";expires="+exp.toGMTString();
-		}
-        
-        (function getCookieIfHas(){
-            if (getCookie("test")){
-                var value = getCookie("test");
-                var string = "get value" + value;
-                alert(string);
-                delCookie("test");
-            }else{
-            	writeCookie("test","value_token",10);
-            }
-        }());
+    getUserMedia.call(navigator, {
+        video: true,
+        audio: true
+    }, function(localMediaStream) {
+        var video = document.getElementById('video');
+        video.src = window.URL.createObjectURL(localMediaStream);
+        video.onloadedmetadata = function(e) {
+            console.log("Label: " + localMediaStream.label);
+            console.log("AudioTracks" , localMediaStream.getAudioTracks());
+            console.log("VideoTracks" , localMediaStream.getVideoTracks());
+        };
+    }, function(e) {
+        console.log('Reeeejected!', e);
+    });
+</script>
 
-  </script>
+
 </html>
