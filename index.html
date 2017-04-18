@@ -52,6 +52,7 @@ function takePhoto()
 </body>
 </html>
 -->
+<!--
 <!DOCTYPE html>
 <html>
   <head>
@@ -91,6 +92,81 @@ function takePhoto()
       //chart.line().shape('smooth').size(2);
       chart.areaStack().position('year*value').color('country').shape('smooth');
       alert("fuck");
+      chart.render();
+    </script>
+  </body>
+</html>
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>平滑折线图</title>
+    <script src="https://a.alipayobjects.com/g/datavis/g2-mobile-all/2.1.14/index.js"></script>
+  </head>
+  <body>
+    <div style="width:416px;height:218px;margin:0 auto">
+      <canvas id="c1" style="width:416px;height:218px;"></canvas>
+    </div>
+    <script>
+      GM.Global.pixelRatio = 2;
+      var Util = GM.Util;
+      var data = [
+        {"time": '周一',"tem": 10,"city": "beijing"},
+        {"time": '周二',"tem": 22,"city": "beijing"},
+        {"time": '周三',"tem": 20,"city": "beijing"},
+        {"time": '周四',"tem": 26,"city": "beijing"},
+        {"time": '周五',"tem": 20,"city": "beijing"},
+        {"time": '周六',"tem": 26,"city": "beijing"},
+        {"time": '周日',"tem": 28,"city": "beijing"},
+        {"time": '周一',"tem": 5,"city": "newYork"},
+        {"time": '周二',"tem": 12,"city": "newYork"},
+        {"time": '周三',"tem": 26,"city": "newYork"},
+        {"time": '周四',"tem": 20,"city": "newYork"},
+        {"time": '周五',"tem": 28,"city": "newYork"},
+        {"time": '周六',"tem": 26,"city": "newYork"},
+        {"time": '周日',"tem": 20,"city": "newYork"}
+      ];
+      var chart = new GM.Chart({
+        id: 'c1'
+      });
+      var defs = {
+        time: {
+          tickCount: 7,
+          range:[0,1]
+        },
+        tem: {
+          tickCount: 5,
+          min: 0
+        }
+      };
+      //配置time刻度文字样式
+      var label = {
+        fill: '#979797',
+        font: '14px san-serif',
+        offset: 6
+      };
+      chart.axis('time', {
+        label: function (text, index, total) {
+          var cfg = Util.mix({}, label);
+          // 第一个点左对齐，最后一个点右对齐，其余居中，只有一个点时左对齐
+          if (index === 0) {
+            cfg.textAlign = 'start';
+          }
+          if (index > 0 && index === total - 1) {
+            cfg.textAlign = 'end';
+          }
+          return cfg;
+        }
+      });
+      //配置刻度文字大小，供PC端显示用(移动端可以使用默认值20px)
+      chart.axis('tem', {
+        label: {
+          fontSize: 14
+        }
+      });
+      chart.source(data, defs);
+      chart.line().position('time*tem').color('city').shape('smooth');
       chart.render();
     </script>
   </body>
