@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html>
 <head>
 <title>webRTC Test</title>
@@ -50,4 +50,47 @@ function takePhoto()
 }
 </script>
 </body>
+</html>
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>层叠区域图</title>
+    <script src="https://a.alipayobjects.com/jquery/jquery/1.11.1/jquery.js"></script>
+    <script src="https://a.alipayobjects.com/g/datavis/g2/2.2.7/g2.js"></script>
+  </head>
+  <body>
+    <div id="c1"></div>
+    <script>
+      var data = [
+
+        {country: 'Oceania', year: '1750', value: 200},
+        {country: 'Oceania', year: '1800', value: 200},
+        {country: 'Oceania', year: '1850', value: 200},
+        {country: 'Oceania', year: '1900', value: 300},
+        {country: 'Oceania', year: '1950', value: 230},
+        {country: 'Oceania', year: '1999', value: 300},
+        {country: 'Oceania', year: '2050', value: 460},
+      ];
+      var Stat = G2.Stat;
+      var chart = new G2.Chart({
+        id: 'c1',
+        forceFit: true,
+        height: 450
+      });
+      chart.source(data, {
+        year: {
+          type: 'linear',
+          tickInterval: 25
+        },
+         type:{
+          type:'cat'
+        }
+      });
+      //chart.line().shape('smooth').size(2);
+      chart.areaStack().position('year*value').color('country').shape('smooth');
+      chart.render();
+    </script>
+  </body>
 </html>
